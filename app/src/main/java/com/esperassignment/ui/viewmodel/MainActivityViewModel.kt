@@ -7,7 +7,10 @@ import com.esperassignment.repository.NetworkRepo
 
 class MainActivityViewModel : ViewModel() {
 
-    private val networkRepo: NetworkRepo = NetworkRepo.networkRepo
+    companion object {
+        val networkRepo: NetworkRepo
+            get() = NetworkRepo()
+    }
 
     fun featureList(): LiveData<List<MFeature>> = networkRepo.getFeatures()
 }

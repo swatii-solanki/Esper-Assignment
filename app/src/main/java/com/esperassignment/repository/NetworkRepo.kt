@@ -20,7 +20,9 @@ class NetworkRepo {
     }
 
     fun getFeatures(): MutableLiveData<List<MFeature>> {
+
         val call: Call<List<MFeature>> = RetrofitClient.RetrofitService().featureList()
+
         call.enqueue(object : Callback<List<MFeature>> {
             override fun onResponse(
                 call: Call<List<MFeature>>,
@@ -40,6 +42,7 @@ class NetworkRepo {
                 Log.d(TAG, "onFailure: ${t.message}")
             }
         })
+
         return featureLiveData
     }
 
