@@ -7,5 +7,5 @@ import retrofit2.http.GET
 interface RetrofitService {
 
     @GET(API.FEATURES)
-    fun list(): Call<List<MFeature>>
+    fun featureList(): Call<List<MFeature>>
 }

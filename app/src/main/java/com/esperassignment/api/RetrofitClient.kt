@@ -8,9 +8,9 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
 
-    private const val BASE_URL = "https://my-json-server.typicode.com/mhrpatel12/esper-assignment"
+    private const val BASE_URL = "https://my-json-server.typicode.com/mhrpatel12/esper-assignment/"
 
-    private fun RetrofitService(): RetrofitService {
+    fun RetrofitService(): RetrofitService {
 
         return Retrofit.Builder().baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -18,7 +18,6 @@ object RetrofitClient {
             .build()
             .create(RetrofitService::class.java)
     }
-
 
     private fun OkHttpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor()

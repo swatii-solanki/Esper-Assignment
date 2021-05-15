@@ -1,8 +1,13 @@
 package com.esperassignment.ui.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import com.esperassignment.model.MFeature
+import com.esperassignment.repository.NetworkRepo
 
-class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
+class MainActivityViewModel : ViewModel() {
 
+    private val networkRepo: NetworkRepo = NetworkRepo.networkRepo
+
+    fun featureList(): LiveData<List<MFeature>> = networkRepo.getFeatures()
 }
