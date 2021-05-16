@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         featureList()
     }
 
-
     private fun initializeViewModel() {
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
     }
@@ -49,10 +48,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun featureList() {
-        viewModel.featureList().observe(this, {
+        viewModel.dbList().observe(this, {
             it.let {
                 Log.d(TAG, "init: $it")
-                adapter.featureList = it
+                adapter.featureList = it.features
             }
         })
     }

@@ -1,7 +1,5 @@
 package com.esperassignment.api
 
 object API {
-
-    const val FEATURES = "features"
-
+    const val DB = "db"
 }

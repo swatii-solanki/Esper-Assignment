@@ -12,8 +12,9 @@
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
             android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView"
             app:shapeAppearanceOverlay="@style/shapeImageView" />
 
         <TextView
@@ -24,11 +25,23 @@
             android:fontFamily="@font/lato"
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
-            app:layout_constraintBottom_toBottomOf="@+id/iv"
+            app:layout_constraintBottom_toBottomOf="@+id/radioButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/iv"
-            app:layout_constraintTop_toTopOf="@+id/iv" />
+            app:layout_constraintTop_toTopOf="@+id/radioButton" />
+
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

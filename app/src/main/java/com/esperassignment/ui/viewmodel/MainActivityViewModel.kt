@@ -2,7 +2,7 @@ package com.esperassignment.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.esperassignment.model.MFeature
+import com.esperassignment.model.MDB
 import com.esperassignment.repository.NetworkRepo
 
 class MainActivityViewModel : ViewModel() {
@@ -12,5 +12,5 @@ class MainActivityViewModel : ViewModel() {
             get() = NetworkRepo()
     }
 
-    fun featureList(): LiveData<List<MFeature>> = networkRepo.getFeatures()
+    fun dbList(): LiveData<MDB> = networkRepo.getDB()
 }

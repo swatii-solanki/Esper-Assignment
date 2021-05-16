@@ -15,6 +15,7 @@ class OptionAdapter : RecyclerView.Adapter<OptionAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemOptionBinding
     private lateinit var context: Context
+    private var lastSelectedPosition = -1
 
     var optionList: List<MOption> = ArrayList()
         set(value) {
@@ -45,6 +46,13 @@ class OptionAdapter : RecyclerView.Adapter<OptionAdapter.ViewHolder>() {
             .load(option.icon)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(holder.binding.iv)
+
+        holder.binding.radioButton.isChecked = lastSelectedPosition == position;
+
+        holder.binding.radioButton.setOnClickListener {
+            lastSelectedPosition = position
+            notifyDataSetChanged()
+        }
     }
 
     override fun getItemCount() = optionList.size
