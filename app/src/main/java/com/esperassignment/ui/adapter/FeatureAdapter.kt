@@ -10,10 +10,14 @@ import com.esperassignment.R
 import com.esperassignment.databinding.ItemFeatureBinding
 import com.esperassignment.model.MFeature
 
-class FeatureAdapter : RecyclerView.Adapter<FeatureAdapter.ViewHolder>() {
+class FeatureAdapter(private var onSelection: OptionAdapter.OnSelection) :
+    RecyclerView.Adapter<FeatureAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemFeatureBinding
     private lateinit var context: Context
+    private lateinit var optionAdapter: OptionAdapter
+    var map: HashMap<String, String> = HashMap()
+    var lastIndex: Int = -1
 
     var featureList: List<MFeature> = ArrayList()
         set(value) {
@@ -39,13 +43,26 @@ class FeatureAdapter : RecyclerView.Adapter<FeatureAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val feature = featureList[position]
         holder.binding.textView.text = feature.name
-
-        val optionAdapter = OptionAdapter()
+        optionAdapter = OptionAdapter(onSelection)
+        optionAdapter.map = map
         optionAdapter.optionList = feature.options
-        binding.rv.layoutManager = LinearLayoutManager(context)
-        binding.rv.setHasFixedSize(true)
-        binding.rv.adapter = optionAdapter
+        holder.binding.rv.layoutManager = LinearLayoutManager(context)
+        holder.binding.rv.setHasFixedSize(true)
+        holder.binding.rv.adapter = optionAdapter
     }
 
     override fun getItemCount() = featureList.size
+
+    fun onItemChanged(map: HashMap<String, String>, featureId: String) {
+        featureList.forEachIndexed { index, mFeature ->
+            if (mFeature.feature_id == featureId) {
+                this.map = map
+                if (lastIndex == -1)
+                    lastIndex = index
+                notifyItemChanged(index)
+                notifyItemChanged(lastIndex)
+                lastIndex = index
+            }
+        }
+    }
 }

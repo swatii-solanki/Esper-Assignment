@@ -3,6 +3,7 @@ package com.esperassignment.ui.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -11,7 +12,8 @@ import com.esperassignment.R
 import com.esperassignment.databinding.ItemOptionBinding
 import com.esperassignment.model.MOption
 
-class OptionAdapter : RecyclerView.Adapter<OptionAdapter.ViewHolder>() {
+class OptionAdapter(private var onSelection: OnSelection) :
+    RecyclerView.Adapter<OptionAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemOptionBinding
     private lateinit var context: Context
@@ -22,6 +24,8 @@ class OptionAdapter : RecyclerView.Adapter<OptionAdapter.ViewHolder>() {
             field = value
             notifyDataSetChanged()
         }
+
+    var map: HashMap<String, String> = HashMap()
 
     class ViewHolder(itemView: ItemOptionBinding) : RecyclerView.ViewHolder(itemView.root) {
         var binding: ItemOptionBinding = itemView
@@ -41,19 +45,39 @@ class OptionAdapter : RecyclerView.Adapter<OptionAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val option = optionList[position]
         holder.binding.textView.text = option.name
-
         Glide.with(context)
             .load(option.icon)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(holder.binding.iv)
 
-        holder.binding.radioButton.isChecked = lastSelectedPosition == position;
+        holder.binding.radioButton.isChecked = lastSelectedPosition == position
 
         holder.binding.radioButton.setOnClickListener {
-            lastSelectedPosition = position
-            notifyDataSetChanged()
+            if (lastSelectedPosition != position) {
+                lastSelectedPosition = position
+                onSelection.selected(option.id)
+                notifyDataSetChanged()
+            }
+        }
+
+        if (map.containsValue(option.id)) {
+            holder.binding.textView.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.teal_700
+                )
+            )
+            holder.binding.radioButton.isEnabled = false
+        } else {
+            holder.binding.textView.setTextColor(ContextCompat.getColor(context, R.color.black))
+            holder.binding.radioButton.isEnabled = true
         }
     }
 
     override fun getItemCount() = optionList.size
+
+    interface OnSelection {
+        fun selected(optionId: String)
+    }
+
 }
