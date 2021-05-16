@@ -57,11 +57,7 @@ class FeatureAdapter(private var onSelection: OptionAdapter.OnSelection) :
         featureList.forEachIndexed { index, mFeature ->
             if (mFeature.feature_id == featureId) {
                 this.map = map
-                if (lastIndex == -1)
-                    lastIndex = index
                 notifyItemChanged(index)
-                notifyItemChanged(lastIndex)
-                lastIndex = index
             }
         }
     }

@@ -64,7 +64,7 @@ class OptionAdapter(private var onSelection: OnSelection) :
             holder.binding.textView.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    R.color.teal_700
+                    R.color.grey
                 )
             )
             holder.binding.radioButton.isEnabled = false
