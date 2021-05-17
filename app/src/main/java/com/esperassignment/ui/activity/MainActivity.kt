@@ -3,6 +3,7 @@ package com.esperassignment.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +16,7 @@ import com.esperassignment.model.MOption
 import com.esperassignment.ui.adapter.FeatureAdapter
 import com.esperassignment.ui.adapter.OptionAdapter
 import com.esperassignment.ui.viewmodel.MainActivityViewModel
+import com.esperassignment.utils.MyLoader
 import com.esperassignment.utils.Utility
 
 class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
@@ -30,6 +32,7 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
     private var exclusions: List<List<MExclusion>> = ArrayList()
     private val map = HashMap<String, String>()
     private val selectedValue = HashMap<String, MOption>()
+    private lateinit var loader: MyLoader
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +42,7 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
     }
 
     private fun init() {
+        loader = MyLoader(context)
         initializeViewModel()
         setRecyclerView()
         featureList()
@@ -64,8 +68,11 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
     }
 
     private fun featureList() {
+        loader.show()
         viewModel.dbList().observe(this, {
+            loader.dismiss()
             it.let {
+                binding.root.visibility = View.VISIBLE
                 adapter.featureList = it.features
                 exclusions = it.exclusions
             }

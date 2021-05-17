@@ -29,4 +29,8 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/lato</item>
     </style>
+
+    <style name="snackBarActionStyle">
+        <item name="android:fontFamily">@font/lato_bold</item>
+    </style>
 </resources>
