@@ -5,15 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.esperassignment.local.converter.FeatureConverter
 import com.esperassignment.local.converter.OptionConverter
 import com.esperassignment.local.dao.DBDao
-import com.esperassignment.local.entity.MDB
 import com.esperassignment.local.entity.MExclusion
+import com.esperassignment.local.entity.MFeature
 
-@Database(entities = [MDB::class, MExclusion::class], version = 1, exportSchema = false)
+@Database(entities = [MFeature::class, MExclusion::class], version = 1, exportSchema = false)
 @TypeConverters(
-    FeatureConverter::class, OptionConverter::class
+   OptionConverter::class
 )
 abstract class FeatureDatabase : RoomDatabase() {
 

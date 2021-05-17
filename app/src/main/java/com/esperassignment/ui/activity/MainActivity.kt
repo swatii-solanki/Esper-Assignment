@@ -29,14 +29,16 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
         private const val TAG = "MainActivity"
     }
 
+    // Initialize Variable
     private lateinit var binding: ActivityMainBinding
     private lateinit var context: Context
     private lateinit var viewModel: MainActivityViewModel
     private lateinit var adapter: FeatureAdapter
+    private lateinit var loader: MyLoader
+
     private var exclusions: ArrayList<ArrayList<MExclusion>> = ArrayList()
     private val map = HashMap<String, String>()
     private val selectedValue = HashMap<String, MOption>()
-    private lateinit var loader: MyLoader
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,14 +49,23 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
 
     private fun init() {
         loader = MyLoader(context)
+
         initializeViewModel()
+
         setRecyclerView()
+
+        clickListener()
+
+        // Checking Whether Network is available or not
+
         if (Utility.isNetworkAvailable(context)) {
             fetchDataFromNetwork()
         } else {
             fetchDataFromLocal()
         }
+    }
 
+    private fun clickListener() {
         binding.btnSelect.setOnClickListener {
             if (selectedValue.size > 0) {
                 val intent = Intent(this, SelectedActivity::class.java)
@@ -66,8 +77,13 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
     }
 
     private fun initializeViewModel() {
+        // Initialize room database object
         val database = FeatureDatabase.getDatabase(this)
+
+        // Initialize Local Repository
         val localRepo = LocalRepo(database.dbDao())
+
+        // Initialize View Model & Pass Local Repository Instance
         viewModel = ViewModelProvider(
             this,
             MainActivityViewModelFactory(localRepo)
@@ -81,8 +97,10 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
         binding.rv.adapter = adapter
     }
 
+    // Fetching data from API If Internet is connected
     private fun fetchDataFromNetwork() {
         loader.show()
+
         viewModel.getFeatureList().observe(this, {
             loader.dismiss()
             it.let {
@@ -92,6 +110,7 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
                 viewModel.insertFeature(it)
             }
         })
+
         viewModel.getExclusionList().observe(this, {
             it.forEach {
                 exclusions.add(it as java.util.ArrayList<MExclusion>)
@@ -101,15 +120,17 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
         })
     }
 
+    // Fetching data from room database if Internet is not connected
     private fun fetchDataFromLocal() {
         loader.show()
         viewModel.getFeatures().observe(this, { mFeatures ->
             loader.dismiss()
-            if (mFeatures != null) {
+            // checking if first time data is not available into database
+            if (mFeatures != null && mFeatures.isNotEmpty()) {
                 Log.d(TAG, "fetchDataFromNetwork: $mFeatures")
                 binding.rv.visibility = View.VISIBLE
                 binding.btnSelect.visibility = View.VISIBLE
-                adapter.featureList = mFeatures.features
+                adapter.featureList = mFeatures
             } else {
                 binding.tvNoInternet.visibility = View.VISIBLE
             }
@@ -122,10 +143,17 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
     }
 
     override fun selected(featureId: String, option: MOption) {
+
+        // Adding selected values
         selectedValue[featureId] = option
+
         map.clear()
+
         repeat(exclusions.size) { index ->
             for ((newIndex, i) in exclusions[index].withIndex()) {
+
+                // checking the selected option id if it is equal then select the opposite array value & store it into map
+
                 if (option.id == i.options_id) {
                     if (newIndex == 0) {
                         map[exclusions[index][newIndex + 1].feature_id] =

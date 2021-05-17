@@ -3,7 +3,6 @@ package com.esperassignment.repository
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import com.esperassignment.local.dao.DBDao
-import com.esperassignment.local.entity.MDB
 import com.esperassignment.local.entity.MExclusion
 import com.esperassignment.local.entity.MFeature
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +18,7 @@ class LocalRepo(private val db: DBDao) {
     @WorkerThread
     suspend fun insertFeature(data: List<MFeature>) {
         withContext(Dispatchers.IO) {
-            db.insertFeature(MDB(1,data))
+            db.insertFeature(data)
         }
     }
 
@@ -31,7 +30,7 @@ class LocalRepo(private val db: DBDao) {
         }
     }
 
-    fun getFeatures(): LiveData<MDB> {
+    fun getFeatures(): LiveData<List<MFeature>> {
         return db.getFeatures()
     }
 

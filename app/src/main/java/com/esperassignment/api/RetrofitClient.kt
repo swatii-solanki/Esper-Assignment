@@ -8,8 +8,11 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
 
+    // Base Url
     private const val BASE_URL = "https://my-json-server.typicode.com/mhrpatel12/esper-assignment/"
 
+
+    // Create Retrofit Service
     fun RetrofitService(): RetrofitService {
 
         return Retrofit.Builder().baseUrl(BASE_URL)
@@ -19,6 +22,7 @@ object RetrofitClient {
             .create(RetrofitService::class.java)
     }
 
+    // Create HttpClient
     private fun OkHttpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
