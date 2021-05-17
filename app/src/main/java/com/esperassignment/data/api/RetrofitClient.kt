@@ -1,4 +1,4 @@
-package com.esperassignment.api
+package com.esperassignment.data.api
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

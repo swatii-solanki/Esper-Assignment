@@ -8,9 +8,9 @@ import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.esperassignment.R
-import com.esperassignment.api.API
+import com.esperassignment.data.api.API
 import com.esperassignment.databinding.ActivitySelectedBinding
-import com.esperassignment.local.entity.MOption
+import com.esperassignment.data.local.entity.MOption
 import com.esperassignment.utils.Utility
 
 class SelectedActivity : AppCompatActivity() {

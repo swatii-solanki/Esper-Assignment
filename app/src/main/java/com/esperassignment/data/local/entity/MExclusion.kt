@@ -1,4 +1,4 @@
-package com.esperassignment.local.entity
+package com.esperassignment.data.local.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

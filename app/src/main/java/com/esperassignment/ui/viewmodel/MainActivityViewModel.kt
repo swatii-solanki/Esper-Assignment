@@ -3,10 +3,10 @@ package com.esperassignment.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.esperassignment.repository.LocalRepo
-import com.esperassignment.local.entity.MExclusion
-import com.esperassignment.local.entity.MFeature
-import com.esperassignment.repository.NetworkRepo
+import com.esperassignment.data.repository.LocalRepo
+import com.esperassignment.data.local.entity.MExclusion
+import com.esperassignment.data.local.entity.MFeature
+import com.esperassignment.data.repository.NetworkRepo
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel(private val localRepo: LocalRepo) : ViewModel() {

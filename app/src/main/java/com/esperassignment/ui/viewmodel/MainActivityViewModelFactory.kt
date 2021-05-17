@@ -2,7 +2,7 @@ package com.esperassignment.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.esperassignment.repository.LocalRepo
+import com.esperassignment.data.repository.LocalRepo
 
 class MainActivityViewModelFactory(private val repository: LocalRepo) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

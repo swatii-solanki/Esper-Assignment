@@ -1,10 +1,10 @@
-package com.esperassignment.repository
+package com.esperassignment.data.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.esperassignment.api.RetrofitClient
-import com.esperassignment.local.entity.MExclusion
-import com.esperassignment.local.entity.MFeature
+import com.esperassignment.data.api.RetrofitClient
+import com.esperassignment.data.local.entity.MExclusion
+import com.esperassignment.data.local.entity.MFeature
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

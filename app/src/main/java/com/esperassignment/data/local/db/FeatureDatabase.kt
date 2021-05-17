@@ -1,14 +1,14 @@
-package com.esperassignment.local.db
+package com.esperassignment.data.local.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.esperassignment.local.converter.OptionConverter
-import com.esperassignment.local.dao.DBDao
-import com.esperassignment.local.entity.MExclusion
-import com.esperassignment.local.entity.MFeature
+import com.esperassignment.data.local.converter.OptionConverter
+import com.esperassignment.data.local.dao.DBDao
+import com.esperassignment.data.local.entity.MExclusion
+import com.esperassignment.data.local.entity.MFeature
 
 @Database(entities = [MFeature::class, MExclusion::class], version = 1, exportSchema = false)
 @TypeConverters(

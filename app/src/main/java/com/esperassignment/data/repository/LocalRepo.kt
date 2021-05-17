@@ -1,10 +1,10 @@
-package com.esperassignment.repository
+package com.esperassignment.data.repository
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import com.esperassignment.local.dao.DBDao
-import com.esperassignment.local.entity.MExclusion
-import com.esperassignment.local.entity.MFeature
+import com.esperassignment.data.local.dao.DBDao
+import com.esperassignment.data.local.entity.MExclusion
+import com.esperassignment.data.local.entity.MFeature
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

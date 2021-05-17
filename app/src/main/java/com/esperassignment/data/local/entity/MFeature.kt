@@ -1,7 +1,7 @@
-package com.esperassignment.local.entity
+package com.esperassignment.data.local.entity
 
 import androidx.room.*
-import com.esperassignment.local.converter.OptionConverter
+import com.esperassignment.data.local.converter.OptionConverter
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "features",indices = [Index(value = ["feature_id"], unique = true)])

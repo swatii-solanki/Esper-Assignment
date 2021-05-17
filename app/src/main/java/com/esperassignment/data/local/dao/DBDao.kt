@@ -1,12 +1,12 @@
-package com.esperassignment.local.dao
+package com.esperassignment.data.local.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.esperassignment.local.entity.MExclusion
-import com.esperassignment.local.entity.MFeature
+import com.esperassignment.data.local.entity.MExclusion
+import com.esperassignment.data.local.entity.MFeature
 
 @Dao
 interface DBDao {

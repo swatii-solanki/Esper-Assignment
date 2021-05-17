@@ -1,7 +1,7 @@
-package com.esperassignment.local.converter
+package com.esperassignment.data.local.converter
 
 import androidx.room.TypeConverter
-import com.esperassignment.local.entity.MOption
+import com.esperassignment.data.local.entity.MOption
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
