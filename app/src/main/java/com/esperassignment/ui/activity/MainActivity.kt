@@ -1,18 +1,21 @@
 package com.esperassignment.ui.activity
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.esperassignment.R
+import com.esperassignment.api.API
 import com.esperassignment.databinding.ActivityMainBinding
 import com.esperassignment.model.MExclusion
+import com.esperassignment.model.MOption
 import com.esperassignment.ui.adapter.FeatureAdapter
 import com.esperassignment.ui.adapter.OptionAdapter
 import com.esperassignment.ui.viewmodel.MainActivityViewModel
+import com.esperassignment.utils.Utility
 
 class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
 
@@ -26,6 +29,7 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
     private lateinit var adapter: FeatureAdapter
     private var exclusions: List<List<MExclusion>> = ArrayList()
     private val map = HashMap<String, String>()
+    private val selectedValue = HashMap<String, MOption>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +42,14 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
         initializeViewModel()
         setRecyclerView()
         featureList()
+        binding.btnSelect.setOnClickListener {
+            if (selectedValue.size > 0) {
+                val intent = Intent(this, SelectedActivity::class.java)
+                intent.putExtra(API.DATA, selectedValue)
+                startActivity(intent)
+            } else
+                Utility.showSnackBar(this, binding.root, getString(R.string.select_validation))
+        }
     }
 
     private fun initializeViewModel() {
@@ -60,11 +72,12 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
         })
     }
 
-    override fun selected(optionId: String) {
+    override fun selected(featureId: String, option: MOption) {
+        selectedValue[featureId] = option
         map.clear()
         repeat(exclusions.size) { index ->
             for ((newIndex, i) in exclusions[index].withIndex()) {
-                if (optionId == i.options_id) {
+                if (option.id == i.options_id) {
                     if (newIndex == 0) {
                         map[exclusions[index][newIndex + 1].feature_id] =
                             exclusions[index][newIndex + 1].options_id

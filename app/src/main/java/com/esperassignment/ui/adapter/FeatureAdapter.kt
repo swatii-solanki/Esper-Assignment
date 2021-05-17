@@ -17,7 +17,6 @@ class FeatureAdapter(private var onSelection: OptionAdapter.OnSelection) :
     private lateinit var context: Context
     private lateinit var optionAdapter: OptionAdapter
     var map: HashMap<String, String> = HashMap()
-    var lastIndex: Int = -1
 
     var featureList: List<MFeature> = ArrayList()
         set(value) {
@@ -43,7 +42,7 @@ class FeatureAdapter(private var onSelection: OptionAdapter.OnSelection) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val feature = featureList[position]
         holder.binding.textView.text = feature.name
-        optionAdapter = OptionAdapter(onSelection)
+        optionAdapter = OptionAdapter(feature.feature_id,onSelection)
         optionAdapter.map = map
         optionAdapter.optionList = feature.options
         holder.binding.rv.layoutManager = LinearLayoutManager(context)

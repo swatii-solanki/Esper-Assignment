@@ -12,7 +12,7 @@ import com.esperassignment.R
 import com.esperassignment.databinding.ItemOptionBinding
 import com.esperassignment.model.MOption
 
-class OptionAdapter(private var onSelection: OnSelection) :
+class OptionAdapter(private var featureId: String, private var onSelection: OnSelection) :
     RecyclerView.Adapter<OptionAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemOptionBinding
@@ -55,7 +55,7 @@ class OptionAdapter(private var onSelection: OnSelection) :
         holder.binding.radioButton.setOnClickListener {
             if (lastSelectedPosition != position) {
                 lastSelectedPosition = position
-                onSelection.selected(option.id)
+                onSelection.selected(featureId, option)
                 notifyDataSetChanged()
             }
         }
@@ -77,7 +77,7 @@ class OptionAdapter(private var onSelection: OnSelection) :
     override fun getItemCount() = optionList.size
 
     interface OnSelection {
-        fun selected(optionId: String)
+        fun selected(featureId: String, option: MOption)
     }
 
 }

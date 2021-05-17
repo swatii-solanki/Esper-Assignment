@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">EsperAssignment</string>
     <string name="select">Select</string>
+    <string name="storage_options">Storage Options</string>
+    <string name="other_features">Other Features</string>
+    <string name="ok">Ok</string>
+    <string name="try_again">Something Went Wrong, Try Again!!</string>
+    <string name="select_validation">Please select at least one option</string>
 </resources>
