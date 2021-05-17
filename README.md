@@ -2,9 +2,9 @@
 The list has variants of mobiles, storage options & feature sets. For individual mobile, every storage option and every feature set is not available. Implemented the functionality where we can't select that unavailable feature.
 
 # The app has following packages:
-data: It contains all the data accessing and manipulating components.
-ui: View classes along with their corresponding ViewModel.
-utils: Utility classes.
+- data: It contains all the data accessing and manipulating components.
+- ui: View classes along with their corresponding ViewModel.
+- utils: Utility classes.
 
 ## Components
 - Glide - A powerful image downloading and caching library for Android https://github.com/bumptech/glide
