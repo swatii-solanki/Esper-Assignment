@@ -1,4 +1,4 @@
-package com.esperassignment.local
+package com.esperassignment.local.db
 
 import android.content.Context
 import androidx.room.Database

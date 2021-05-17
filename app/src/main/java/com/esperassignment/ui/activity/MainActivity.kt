@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.esperassignment.R
 import com.esperassignment.api.API
 import com.esperassignment.databinding.ActivityMainBinding
-import com.esperassignment.local.FeatureDatabase
-import com.esperassignment.local.LocalRepo
+import com.esperassignment.local.db.FeatureDatabase
+import com.esperassignment.repository.LocalRepo
 import com.esperassignment.local.entity.MExclusion
 import com.esperassignment.local.entity.MOption
 import com.esperassignment.ui.adapter.FeatureAdapter
