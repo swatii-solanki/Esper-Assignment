@@ -3,6 +3,7 @@ package com.esperassignment.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -11,11 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.esperassignment.R
 import com.esperassignment.api.API
 import com.esperassignment.databinding.ActivityMainBinding
-import com.esperassignment.model.MExclusion
-import com.esperassignment.model.MOption
+import com.esperassignment.local.FeatureDatabase
+import com.esperassignment.local.LocalRepo
+import com.esperassignment.local.entity.MExclusion
+import com.esperassignment.local.entity.MOption
 import com.esperassignment.ui.adapter.FeatureAdapter
 import com.esperassignment.ui.adapter.OptionAdapter
 import com.esperassignment.ui.viewmodel.MainActivityViewModel
+import com.esperassignment.ui.viewmodel.MainActivityViewModelFactory
 import com.esperassignment.utils.MyLoader
 import com.esperassignment.utils.Utility
 
@@ -29,7 +33,7 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
     private lateinit var context: Context
     private lateinit var viewModel: MainActivityViewModel
     private lateinit var adapter: FeatureAdapter
-    private var exclusions: List<List<MExclusion>> = ArrayList()
+    private var exclusions: List<MExclusion> = ArrayList()
     private val map = HashMap<String, String>()
     private val selectedValue = HashMap<String, MOption>()
     private lateinit var loader: MyLoader
@@ -48,8 +52,9 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
         if (Utility.isNetworkAvailable(context)) {
             fetchDataFromNetwork()
         } else {
-            binding.tvNoInternet.visibility = View.VISIBLE
+            fetchDataFromLocal()
         }
+
         binding.btnSelect.setOnClickListener {
             if (selectedValue.size > 0) {
                 val intent = Intent(this, SelectedActivity::class.java)
@@ -61,7 +66,12 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
     }
 
     private fun initializeViewModel() {
-        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+        val database = FeatureDatabase.getDatabase(this)
+        val localRepo = LocalRepo(database.dbDao())
+        viewModel = ViewModelProvider(
+            this,
+            MainActivityViewModelFactory(localRepo)
+        ).get(MainActivityViewModel::class.java)
     }
 
     private fun setRecyclerView() {
@@ -73,32 +83,56 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
 
     private fun fetchDataFromNetwork() {
         loader.show()
-        viewModel.dbList().observe(this, {
+        viewModel.getFeatureList().observe(this, {
             loader.dismiss()
             it.let {
                 binding.rv.visibility = View.VISIBLE
                 binding.btnSelect.visibility = View.VISIBLE
-                adapter.featureList = it.features
-                exclusions = it.exclusions
+                adapter.featureList = it
+                viewModel.insertFeature(it)
             }
+        })
+        viewModel.getExclusionList().observe(this, {
+            it.forEach {
+                exclusions = it
+                viewModel.insertExclusion(it)
+            }
+        })
+    }
+
+    private fun fetchDataFromLocal() {
+        loader.show()
+        viewModel.getFeatures().observe(this, { mFeatures ->
+            loader.dismiss()
+            if (mFeatures != null) {
+                Log.d(TAG, "fetchDataFromNetwork: $mFeatures")
+                binding.rv.visibility = View.VISIBLE
+                binding.btnSelect.visibility = View.VISIBLE
+                adapter.featureList = mFeatures.features
+            } else {
+                binding.tvNoInternet.visibility = View.VISIBLE
+            }
+        })
+        viewModel.getExclusion().observe(this, { mExclusion ->
+            Log.d(TAG, "fetchDataFromNetwork: $mExclusion")
+            if (mExclusion != null)
+                exclusions = mExclusion
         })
     }
 
     override fun selected(featureId: String, option: MOption) {
         selectedValue[featureId] = option
         map.clear()
-        repeat(exclusions.size) { index ->
-            for ((newIndex, i) in exclusions[index].withIndex()) {
-                if (option.id == i.options_id) {
-                    if (newIndex == 0) {
-                        map[exclusions[index][newIndex + 1].feature_id] =
-                            exclusions[index][newIndex + 1].options_id
-                        adapter.onItemChanged(map, exclusions[index][newIndex + 1].feature_id)
-                    } else {
-                        map[exclusions[index][newIndex - 1].feature_id] =
-                            exclusions[index][newIndex - 1].options_id
-                        adapter.onItemChanged(map, exclusions[index][newIndex - 1].feature_id)
-                    }
+        for ((newIndex, i) in exclusions.withIndex()) {
+            if (option.id == i.options_id) {
+                if (newIndex == 0) {
+                    map[exclusions[newIndex + 1].feature_id] =
+                        exclusions[newIndex + 1].options_id
+                    adapter.onItemChanged(map, exclusions[newIndex + 1].feature_id)
+                } else {
+                    map[exclusions[newIndex - 1].feature_id] =
+                        exclusions[newIndex - 1].options_id
+                    adapter.onItemChanged(map, exclusions[newIndex - 1].feature_id)
                 }
             }
         }

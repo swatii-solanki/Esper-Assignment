@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.esperassignment.R
 import com.esperassignment.databinding.ItemOptionBinding
-import com.esperassignment.model.MOption
+import com.esperassignment.local.entity.MOption
 
 class OptionAdapter(private var featureId: String, private var onSelection: OnSelection) :
     RecyclerView.Adapter<OptionAdapter.ViewHolder>() {

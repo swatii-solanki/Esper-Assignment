@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.esperassignment.R
 import com.esperassignment.databinding.ItemFeatureBinding
-import com.esperassignment.model.MFeature
+import com.esperassignment.local.entity.MFeature
 
 class FeatureAdapter(private var onSelection: OptionAdapter.OnSelection) :
     RecyclerView.Adapter<FeatureAdapter.ViewHolder>() {
