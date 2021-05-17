@@ -6,4 +6,5 @@
     <string name="ok">Ok</string>
     <string name="try_again">Something Went Wrong, Try Again!!</string>
     <string name="select_validation">Please select at least one option</string>
+    <string name="check_internet_connection">Please check your internet connection</string>
 </resources>

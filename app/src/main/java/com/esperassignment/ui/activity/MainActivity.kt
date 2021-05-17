@@ -45,7 +45,11 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
         loader = MyLoader(context)
         initializeViewModel()
         setRecyclerView()
-        featureList()
+        if (Utility.isNetworkAvailable(context)) {
+            fetchDataFromNetwork()
+        } else {
+            binding.tvNoInternet.visibility = View.VISIBLE
+        }
         binding.btnSelect.setOnClickListener {
             if (selectedValue.size > 0) {
                 val intent = Intent(this, SelectedActivity::class.java)
@@ -67,12 +71,13 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
         binding.rv.adapter = adapter
     }
 
-    private fun featureList() {
+    private fun fetchDataFromNetwork() {
         loader.show()
         viewModel.dbList().observe(this, {
             loader.dismiss()
             it.let {
-                binding.root.visibility = View.VISIBLE
+                binding.rv.visibility = View.VISIBLE
+                binding.btnSelect.visibility = View.VISIBLE
                 adapter.featureList = it.features
                 exclusions = it.exclusions
             }
