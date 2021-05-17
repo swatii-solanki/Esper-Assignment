@@ -1,13 +1,10 @@
 package com.esperassignment.local.entity
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
+import androidx.room.*
 import com.esperassignment.local.converter.OptionConverter
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "features")
+@Entity(tableName = "features",indices = [Index(value = ["feature_id"], unique = true)])
 data class MFeature(
     @PrimaryKey(autoGenerate = true)
     val pid: Long,

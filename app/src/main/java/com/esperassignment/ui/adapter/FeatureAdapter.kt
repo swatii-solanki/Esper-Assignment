@@ -18,7 +18,7 @@ class FeatureAdapter(private var onSelection: OptionAdapter.OnSelection) :
     private lateinit var optionAdapter: OptionAdapter
     var map: HashMap<String, String> = HashMap()
 
-    var featureList: List<MFeature> = ArrayList()
+    var featureList: ArrayList<MFeature> = ArrayList()
         set(value) {
             field = value
             notifyDataSetChanged()

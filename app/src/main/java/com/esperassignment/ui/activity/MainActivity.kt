@@ -14,6 +14,7 @@ import com.esperassignment.api.API
 import com.esperassignment.databinding.ActivityMainBinding
 import com.esperassignment.local.db.FeatureDatabase
 import com.esperassignment.local.entity.MExclusion
+import com.esperassignment.local.entity.MFeature
 import com.esperassignment.local.entity.MOption
 import com.esperassignment.repository.LocalRepo
 import com.esperassignment.ui.adapter.FeatureAdapter
@@ -106,7 +107,7 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
             it.let {
                 binding.rv.visibility = View.VISIBLE
                 binding.btnSelect.visibility = View.VISIBLE
-                adapter.featureList = it
+                adapter.featureList = it as ArrayList<MFeature>
                 viewModel.insertFeature(it)
             }
         })
@@ -122,6 +123,8 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
 
     // Fetching data from room database if Internet is not connected
     private fun fetchDataFromLocal() {
+        adapter.featureList.clear()
+        exclusions.clear()
         loader.show()
         viewModel.getFeatures().observe(this, { mFeatures ->
             loader.dismiss()
@@ -130,7 +133,7 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
                 Log.d(TAG, "fetchDataFromNetwork: $mFeatures")
                 binding.rv.visibility = View.VISIBLE
                 binding.btnSelect.visibility = View.VISIBLE
-                adapter.featureList = mFeatures
+                adapter.featureList = mFeatures as ArrayList<MFeature>
             } else {
                 binding.tvNoInternet.visibility = View.VISIBLE
             }
