@@ -13,9 +13,9 @@ import com.esperassignment.R
 import com.esperassignment.api.API
 import com.esperassignment.databinding.ActivityMainBinding
 import com.esperassignment.local.db.FeatureDatabase
-import com.esperassignment.repository.LocalRepo
 import com.esperassignment.local.entity.MExclusion
 import com.esperassignment.local.entity.MOption
+import com.esperassignment.repository.LocalRepo
 import com.esperassignment.ui.adapter.FeatureAdapter
 import com.esperassignment.ui.adapter.OptionAdapter
 import com.esperassignment.ui.viewmodel.MainActivityViewModel
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
     private lateinit var context: Context
     private lateinit var viewModel: MainActivityViewModel
     private lateinit var adapter: FeatureAdapter
-    private var exclusions: List<MExclusion> = ArrayList()
+    private var exclusions: ArrayList<ArrayList<MExclusion>> = ArrayList()
     private val map = HashMap<String, String>()
     private val selectedValue = HashMap<String, MOption>()
     private lateinit var loader: MyLoader
@@ -94,7 +94,8 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
         })
         viewModel.getExclusionList().observe(this, {
             it.forEach {
-                exclusions = it
+                exclusions.add(it as java.util.ArrayList<MExclusion>)
+                Log.d(TAG, "selected: ${exclusions.toString()}")
                 viewModel.insertExclusion(it)
             }
         })
@@ -116,23 +117,25 @@ class MainActivity : AppCompatActivity(), OptionAdapter.OnSelection {
         viewModel.getExclusion().observe(this, { mExclusion ->
             Log.d(TAG, "fetchDataFromNetwork: $mExclusion")
             if (mExclusion != null)
-                exclusions = mExclusion
+                exclusions.add(mExclusion as java.util.ArrayList<MExclusion>)
         })
     }
 
     override fun selected(featureId: String, option: MOption) {
         selectedValue[featureId] = option
         map.clear()
-        for ((newIndex, i) in exclusions.withIndex()) {
-            if (option.id == i.options_id) {
-                if (newIndex == 0) {
-                    map[exclusions[newIndex + 1].feature_id] =
-                        exclusions[newIndex + 1].options_id
-                    adapter.onItemChanged(map, exclusions[newIndex + 1].feature_id)
-                } else {
-                    map[exclusions[newIndex - 1].feature_id] =
-                        exclusions[newIndex - 1].options_id
-                    adapter.onItemChanged(map, exclusions[newIndex - 1].feature_id)
+        repeat(exclusions.size) { index ->
+            for ((newIndex, i) in exclusions[index].withIndex()) {
+                if (option.id == i.options_id) {
+                    if (newIndex == 0) {
+                        map[exclusions[index][newIndex + 1].feature_id] =
+                            exclusions[index][newIndex + 1].options_id
+                        adapter.onItemChanged(map, exclusions[index][newIndex + 1].feature_id)
+                    } else {
+                        map[exclusions[index][newIndex - 1].feature_id] =
+                            exclusions[index][newIndex - 1].options_id
+                        adapter.onItemChanged(map, exclusions[index][newIndex - 1].feature_id)
+                    }
                 }
             }
         }

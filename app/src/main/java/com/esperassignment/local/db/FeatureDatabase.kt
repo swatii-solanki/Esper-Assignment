@@ -11,7 +11,7 @@ import com.esperassignment.local.dao.DBDao
 import com.esperassignment.local.entity.MDB
 import com.esperassignment.local.entity.MExclusion
 
-@Database(entities = [MDB::class,MExclusion::class], version = 1, exportSchema = false)
+@Database(entities = [MDB::class, MExclusion::class], version = 1, exportSchema = false)
 @TypeConverters(
     FeatureConverter::class, OptionConverter::class
 )
