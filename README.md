@@ -12,3 +12,7 @@ The list has variants of mobiles, storage options & feature sets. For individual
 - Data Binding - This is a support library that allows you to bind UI components in your layouts to data sources in your app using a declarative format rather than programmatically.
 
 - Room - The Room persistence library provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite. (https://developer.android.com/training/data-storage/room)
+
+## Screens
+
+ <img src="https://github.com/swatii-solanki/EsperTask/blob/master/device-2021-05-29-161112.png" width="300" height="620"> <img src="https://github.com/swatii-solanki/EsperTask/blob/master/device-2021-05-29-161123.png" width="300" height="620">
