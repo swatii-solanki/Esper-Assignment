@@ -15,4 +15,4 @@ The list has variants of mobiles, storage options & feature sets. For individual
 
 ## Screens
 
- <img src="https://github.com/swatii-solanki/EsperTask/blob/master/device-2021-05-29-161112.png" width="300" height="620"> <img src="https://github.com/swatii-solanki/EsperTask/blob/master/device-2021-05-29-161440.png" width="300" height="620">
+ <img src="https://github.com/swatii-solanki/EsperTask/blob/master/device-2021-05-29-161112.png" width="300" height="550"> <img src="https://github.com/swatii-solanki/EsperTask/blob/master/device-2021-05-29-161440.png" width="300" height="550">
